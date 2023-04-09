@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>测试 内存快照</title>
+  </head>
+  <body>
+    <script src="../SnapshotSandbox.js"></script>
+    <script>
+      const sandbox = new SnapshotSandbox();
+      sandbox.active();
+
+      window.age = 20;
+
+      sandbox.inactive();
+      console.log(window.age);
+
+      sandbox.active();
+      console.log(window.age);
+    </script>
+  </body>
+</html>
