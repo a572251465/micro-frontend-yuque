@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>my base app</div>
+    <script>
+      const template = `
+        <div id="micro-app">
+            <div>micro-app-inner</div>
+            <style>
+                div {color: red;}
+            </style>
+        </div>
+      `;
+
+      const ele = document.createElement("div");
+      ele.innerHTML = template;
+      const appElement = ele.firstElementChild;
+      const oldContent = appElement.innerHTML;
+
+      appElement.innerHTML = "";
+      const shadow = appElement.attachShadow({ mode: "closed" });
+      shadow.innerHTML = oldContent;
+      document.body.appendChild(appElement);
+    </script>
+  </body>
+</html>
