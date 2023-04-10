@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 表示自定义按钮显示部分  -->
+    <my-button>这是一个自定义button</my-button>
+    <!-- button 的模板  浏览器内容 默认是不会显示出现的   -->
+    <template id="btn">
+      <button class="my-button"><slot>默认的内容</slot></button>
+    </template>
+    <script>
+      class MyButton extends HTMLElement {
+        // 组件加载方法
+        connectedCallback() {
+          console.log("my-botton 组件加载成功");
+          this.shadow = this.attachShadow({ mode: "open" });
+          const btnEle = document.getElementById("btn");
+          const btnType = btnEle.getAttribute("type") || "default";
+          this.types = {
+            primary: {
+              background: "blue",
+            },
+            default: {
+              background: "#a1a1a1",
+            },
+          };
+          const types = this.types;
+          const style = document.createElement("style");
+          style.innerHTML = `
+            .my-button{
+                background:${types[btnType].background};
+                color:#fff;
+                padding:10px 20px
+            }
+          `;
+          const tpl = btnEle.content.cloneNode(true);
+          this.shadow.appendChild(style);
+          this.shadow.appendChild(tpl);
+          this.dispatchEvent(new CustomEvent("mounted"));
+        }
+
+        // 监听属性的方法
+        static get observedAttributes() {
+          return ["type"];
+        }
+
+        // 属性修改回调方法
+        attributeChangedCallback(name, oldVal, newVal) {
+          if (this.shadow) {
+            const btn = this.shadow.querySelector(".my-button");
+            btn.style.background = this.types[newVal].background;
+            this.dispatchEvent(new CustomEvent("updated"));
+          }
+        }
+
+        // 组件卸载方法
+        disconnectedCallback() {
+          this.dispatchEvent(new CustomEvent("unMounted"));
+        }
+      }
+
+      const customBtn = document.querySelector("my-button");
+      customBtn.addEventListener("mounted", () => {
+        console.log("component mounted");
+      });
+      customBtn.addEventListener("unMounted", () => {
+        console.log("component unMounted");
+      });
+
+      window.customElements.define("my-button", MyButton);
+
+      setTimeout(() => {
+        customBtn.setAttribute("type", "primary");
+      }, 1000);
+    </script>
+  </body>
+</html>
