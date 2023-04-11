@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SubApp01 from "../views/SubApp01.vue";
 import SubApp02 from "../views/SubApp02.vue";
+import SubApp03 from "../views/SubApp03.vue";
 
 const routes = [
   {
@@ -10,6 +11,10 @@ const routes = [
   {
     path: "/subApp02",
     component: SubApp02,
+  },
+  {
+    path: "/subApp03",
+    component: SubApp03,
   },
 ];
 

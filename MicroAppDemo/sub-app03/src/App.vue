@@ -1,10 +1,9 @@
 <template>
   <nav>
-    <router-link to="/subApp01">子 应用1</router-link> |
-    <router-link to="/subApp02">子 应用2</router-link> |
-    <router-link to="/subApp03">子 应用3</router-link> |
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
   </nav>
-  <router-view />
+  <router-view/>
 </template>
 
 <style>
